@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - gh_actions
   pull_request:
     branches:
       - master
@@ -22,7 +23,7 @@ jobs:
     - name: Install Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.12
+        go-version: 1.13
     - name: Verify
       run: make verify
 
@@ -33,7 +34,7 @@ jobs:
     - name: Install Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.12
+        go-version: 1.13
     - uses: actions/checkout@v2
     - name: Test
       run: make test
