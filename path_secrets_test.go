@@ -3,7 +3,7 @@ package kubesecrets
 import (
 	"context"
 	"testing"
-
+        "fmt"
 	"github.com/hashicorp/vault/sdk/logical"
 
 	"github.com/hashicorp/go-hclog"
@@ -23,5 +23,17 @@ func getTestBackend(t *testing.T) logical.Backend {
 }
 
 func TestSecretNamespaceMissing(t *testing.T) {
+	b := getTestBackend(t)
 
+	request := &logical.Request{
+		Operation: logical.ReadOperation,
+		Path:      fmt.Sprintf("%s/", secretsPrefix),
+		Data:      make(map[string]interface{}),
+	}
+
+	errMsg := "Missing secret namespace"
+	resp, _ := b.HandleRequest(context.Background(), request)
+	if resp.Error().Error() != errMsg {
+		t.Errorf("Error must be '%s', get '%s'", errMsg, resp.Error())
+	}
 }
