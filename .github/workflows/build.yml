@@ -18,6 +18,7 @@ jobs:
   test:
     name: Img push
     runs-on: ubuntu-latest
+    steps:
     - name: Docker login
       if: ${{ github.event_name != 'pull_request' && env.ACTIVE_CI == 'gh_actions' }}
       run: docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
