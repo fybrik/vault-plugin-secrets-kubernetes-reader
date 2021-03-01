@@ -40,7 +40,7 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	secretName := data.Get("secret_name").(string)
 	namespace := data.Get("namespace").(string)
-	b.Logger().Info("In handleRead() secretName: " + secretName + ", namespace: " + namespace)
+	//b.Logger().Info("In handleRead() secretName: " + secretName + ", namespace: " + namespace)
 
 	if secretName == "" {
 		resp := logical.ErrorResponse("Missing secret name")
