@@ -16,23 +16,8 @@ env:
 
 jobs:
   test:
-    name: Unit tests
+    name: Img push
     runs-on: ubuntu-latest
-    steps:
-    - name: Install Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.13
-    - uses: actions/checkout@v2
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/go/pkg/mod
-        key: ${{ runner.os }}-ut-m2-${{ hashFiles('**/go.sum') }}
-        restore-keys: ${{ runner.os }}-ut-m2
-    - name: Test
-      run: make test
     - name: Docker login
       if: ${{ github.event_name != 'pull_request' && env.ACTIVE_CI == 'gh_actions' }}
       run: docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
