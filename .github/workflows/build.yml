@@ -15,18 +15,6 @@ env:
   ACTIVE_CI: gh_actions #  This parameter defines which CI should push to the docker repository
 
 jobs:
-  verify:
-    name: Verify
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.13
-    - name: Verify
-      run: make verify
-
   test:
     name: Unit tests
     runs-on: ubuntu-latest

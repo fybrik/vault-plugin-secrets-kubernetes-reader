@@ -33,8 +33,9 @@ func TestSecretNamespaceMissing(t *testing.T) {
 	}
 
 	errMsg := "Missing secret namespace"
-	resp, _ := b.HandleRequest(context.Background(), request)
+//	resp, _ := b.HandleRequest(context.Background(), request)
+     
 	if resp.Error().Error() != errMsg {
-		t.Errorf("Error must be '%s', get '%s'", errMsg, resp.Error())
+		t.Errorf("Error must be '%s', get '", errMsg)
 	}
 }
