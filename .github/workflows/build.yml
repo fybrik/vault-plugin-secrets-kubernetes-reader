@@ -24,6 +24,13 @@ jobs:
       with:
         go-version: 1.13
     - uses: actions/checkout@v2
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/go/pkg/mod
+        key: ${{ runner.os }}-ut-m2-${{ hashFiles('**/go.sum') }}
+        restore-keys: ${{ runner.os }}-ut-m2
     - name: Test
       run: make test
     - name: Docker login
