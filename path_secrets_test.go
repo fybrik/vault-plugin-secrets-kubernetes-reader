@@ -24,5 +24,4 @@ func getTestBackend(t *testing.T) logical.Backend {
 
 func TestSecretNamespaceMissing(t *testing.T) {
 
-	t.Errorf("Error must be oo")
 }
