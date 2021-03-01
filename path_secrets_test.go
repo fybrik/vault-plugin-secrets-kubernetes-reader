@@ -2,8 +2,9 @@ package kubesecrets
 
 import (
 	"context"
+	"fmt"
 	"testing"
-        "fmt"
+
 	"github.com/hashicorp/vault/sdk/logical"
 
 	"github.com/hashicorp/go-hclog"
@@ -31,6 +32,7 @@ func TestSecretNamespaceMissing(t *testing.T) {
 		Data:      make(map[string]interface{}),
 	}
 
+	fmt.Printf("REVIT")
 	errMsg := "Missing secret namespace"
 	resp, _ := b.HandleRequest(context.Background(), request)
 	if resp.Error().Error() != errMsg {
