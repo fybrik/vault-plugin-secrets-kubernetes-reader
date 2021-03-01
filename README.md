@@ -1,6 +1,6 @@
 # Vault Kubenetes Secrets Plugin
 
-This s a secret engine plugin for [HashiCorp Vault](https://www.vaultproject.io/) which reads Kuberentes secrets. 
+This is a secret engine plugin for [HashiCorp Vault](https://www.vaultproject.io/) which reads Kuberentes secrets. 
 
 ## Quick Start
 

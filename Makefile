@@ -19,7 +19,6 @@ clean:
 
 .PHONY: test
 test:
-	go test -v
+	go test -v ./...
 
 include hack/make-rules/verify.mk
-include hack/make-rules/docker.mk

@@ -1,13 +1,10 @@
-#FROM golang:1.13.8
 FROM golang:1.13.8-alpine as builder
 
 WORKDIR /workspace
 COPY . . 
-#COPY samples/gui/server/go.sum.datauserserver go.sum
 
 RUN go mod download
 
-#RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o server/datauser ./samples/gui/server/main.go
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -o vault/plugins/vault-plugin-secrets-kubernetes-reader cmd/vault-plugin-secrets-kubernetes-reader/main.go
 
 EXPOSE 8080
