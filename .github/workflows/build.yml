@@ -21,7 +21,7 @@ jobs:
     steps:
     - name: Docker login
       if: ${{ github.event_name != 'pull_request' && env.ACTIVE_CI == 'gh_actions' }}
-      run: docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
     - name: Docker build
       run: docker build . -t ghcr.io/the-mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest -f Dockerfile
     - name: Docker push
