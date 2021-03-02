@@ -19,6 +19,7 @@ jobs:
     name: Img push
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Docker login
       if: ${{ github.event_name != 'pull_request' && env.ACTIVE_CI == 'gh_actions' }}
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
