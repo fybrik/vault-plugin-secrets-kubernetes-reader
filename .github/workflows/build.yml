@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+      - gh_actions
+  pull_request:
+    branches:
+      - master
+
+env:
+  DOCKER_HOSTNAME: ghcr.io
+  DOCKER_USERNAME: the-mesh-for-data
+  ACTIVE_CI: gh_actions #  This parameter defines which CI should push to the docker repository
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.13
+    - name: Verify
+      run: make verify
+
+  build:
+    name: Build and push img
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      if: ${{ github.event_name != 'pull_request' && env.ACTIVE_CI == 'gh_actions' }}
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
+    - name: Docker build
+      run: docker build . -t ghcr.io/the-mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest -f Dockerfile
+    - name: Docker push
+      if: ${{ github.event_name != 'pull_request' && env.ACTIVE_CI == 'gh_actions' }}
+      run: docker push ghcr.io/the-mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest
