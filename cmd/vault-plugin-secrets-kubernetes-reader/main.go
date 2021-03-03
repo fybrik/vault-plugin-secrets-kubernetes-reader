@@ -12,12 +12,18 @@ import (
 func main() {
 	apiClientMeta := &api.PluginAPIClientMeta{}
 	flags := apiClientMeta.FlagSet()
-	flags.Parse(os.Args[1:])
+	err := flags.Parse(os.Args[1:])
+	if err != nil {
+		logger := hclog.New(&hclog.LoggerOptions{})
+
+		logger.Error("Error in flags.Parse", err)
+		os.Exit(1)
+	}
 
 	tlsConfig := apiClientMeta.GetTLSConfig()
 	tlsProviderFunc := api.VaultPluginTLSProvider(tlsConfig)
 
-	err := plugin.Serve(&plugin.ServeOpts{
+	err = plugin.Serve(&plugin.ServeOpts{
 		BackendFactoryFunc: kubesecrets.Factory,
 		TLSProviderFunc:    tlsProviderFunc,
 	})

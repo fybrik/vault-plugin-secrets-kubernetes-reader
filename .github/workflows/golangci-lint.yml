@@ -17,5 +17,5 @@ jobs:
         uses: golangci/golangci-lint-action@v2.5.1
         with:
           version: v1.29
-      - name: Run vet 
-        run: go vet ./...
+      - name: Run vet
+        run: go vet ./.
