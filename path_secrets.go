@@ -3,7 +3,6 @@ package kubesecrets
 import (
 	"context"
 
-	"github.com/hashicorp/errwrap"
 	"github.com/hashicorp/vault/sdk/framework"
 	"github.com/hashicorp/vault/sdk/logical"
 )
@@ -33,7 +32,6 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 			logical.ReadOperation: b.handleRead,
 		},
 		HelpDescription: pathInvalidHelp,
-		ExistenceCheck:  b.handleExistenceCheck,
 	}
 }
 
@@ -52,7 +50,7 @@ func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Requ
 		return resp, nil
 	}
 
-	fetchedData, err := b.KubeSecretReader.GetSecret(secretName, namespace, b.Logger())
+	fetchedData, err := b.KubeSecretReader.GetSecret(ctx, secretName, namespace, b.Logger())
 	if err != nil {
 		resp := logical.ErrorResponse("Error reading the secret data " + err.Error())
 		return resp, nil
@@ -64,15 +62,6 @@ func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Requ
 	}
 
 	return resp, nil
-}
-
-func (b *secretsReaderBackend) handleExistenceCheck(ctx context.Context, req *logical.Request, data *framework.FieldData) (bool, error) {
-	out, err := req.Storage.Get(ctx, req.Path)
-	if err != nil {
-		return false, errwrap.Wrapf("existence check failed: {{err}}", err)
-	}
-
-	return out != nil, nil
 }
 
 var backendHelp string = `
