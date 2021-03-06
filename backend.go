@@ -57,8 +57,10 @@ func newBackend() (*secretsReaderBackend, error) {
 	}
 
 	b.Backend = &framework.Backend{
-		Help:        strings.TrimSpace(backendHelp),
+		Help: strings.TrimSpace(backendHelp),
+		// TypeLogical indicates that the backend (plugin) is a secret provider.
 		BackendType: logical.TypeLogical,
+		// Define the path for which this backend will respond.
 		Paths: []*framework.Path{
 			pathSecrets(b),
 		},

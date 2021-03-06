@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	// Boilerplate code to get started.
+	// Please see https://www.hashicorp.com/blog/building-a-vault-secure-plugin for more info.
 	apiClientMeta := &api.PluginAPIClientMeta{}
 	flags := apiClientMeta.FlagSet()
 	err := flags.Parse(os.Args[1:])

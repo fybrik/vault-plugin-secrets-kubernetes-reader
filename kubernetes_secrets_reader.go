@@ -13,7 +13,9 @@ type KubernetesSecretsReader struct {
 	client kclient.Client
 }
 
-func (s *KubernetesSecretsReader) GetSecret(ctx context.Context, secretName string, namespace string, log log.Logger) (map[string]interface{}, error) {
+// GetSecret returns the content of kubernetes secret.
+func (s *KubernetesSecretsReader) GetSecret(ctx context.Context, secretName string,
+	namespace string, log log.Logger) (map[string]interface{}, error) {
 	// Read the secret
 	secret := &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
@@ -23,6 +25,7 @@ func (s *KubernetesSecretsReader) GetSecret(ctx context.Context, secretName stri
 	}
 	objectKey := kclient.ObjectKeyFromObject(secret)
 
+	// Read the secret.
 	err := s.client.Get(ctx, objectKey, secret)
 	if err != nil {
 		log.Error("Error in GetSecret: " + err.Error())

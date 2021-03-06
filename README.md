@@ -1,6 +1,15 @@
 # Vault Kubenetes Secrets Plugin
 
-This is a secret engine plugin for [HashiCorp Vault](https://www.vaultproject.io/) which reads Kuberentes secrets. 
+This is a secret engine plugin for [HashiCorp Vault](https://www.vaultproject.io/) which reads Kuberentes secrets.
+
+Requirements:
+
+    make
+    golang 1.13 and above
+    docker
+    Vault CLI utility
+
+When Vault is deployed on Kuberentes cluster RBAC should be set to grant Vault with the proper permissions to read the secrets (Please see example/clusterrole.yaml and example/clusterrolebinding.yaml that can be used for such purpose).
 
 ## Quick Start
 

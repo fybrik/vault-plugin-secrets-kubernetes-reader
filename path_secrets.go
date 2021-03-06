@@ -9,6 +9,7 @@ import (
 
 const secretsPrefix = "secret_name"
 
+// pathSecrets returns the path configuration for reading kubernetes secrets.
 func pathSecrets(b *secretsReaderBackend) *framework.Path {
 	return &framework.Path{
 		Pattern: framework.MatchAllRegex(secretsPrefix),
@@ -27,7 +28,6 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 				Required:    true,
 			},
 		},
-
 		Callbacks: map[logical.Operation]framework.OperationFunc{
 			logical.ReadOperation: b.handleRead,
 		},
@@ -35,6 +35,8 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 	}
 }
 
+// handleRead handles a read request: it extracts the secret name and namespace
+// and returns the secret content if no error occured.
 func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	secretName := data.Get("secret_name").(string)
 	namespace := data.Get("namespace").(string)
