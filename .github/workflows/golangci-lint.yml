@@ -16,6 +16,8 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2.5.1
         with:
+          args: --timeout 5m
           version: v1.29
+          skip-go-installation: true
       - name: Run vet
-        run: go vet ./.
+        run: go vet ./...
