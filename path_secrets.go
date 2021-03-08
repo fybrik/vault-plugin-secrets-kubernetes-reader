@@ -27,6 +27,12 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 				Query:       true,
 				Required:    true,
 			},
+			"key": {
+				Type:        framework.TypeString,
+				Description: "if present the plugin returns the value of this key.",
+				Query:       true,
+				Required:    false,
+			},
 		},
 		Callbacks: map[logical.Operation]framework.OperationFunc{
 			logical.ReadOperation: b.handleRead,
@@ -40,6 +46,7 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
 	secretName := data.Get("secret_name").(string)
 	namespace := data.Get("namespace").(string)
+	key := data.Get("key").(string)
 	b.Logger().Info("In handleRead() secretName: " + secretName + ", namespace: " + namespace)
 
 	if secretName == "" {
@@ -52,7 +59,7 @@ func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Requ
 		return resp, nil
 	}
 
-	fetchedData, err := b.KubeSecretReader.GetSecret(ctx, secretName, namespace, b.Logger())
+	fetchedData, err := b.KubeSecretReader.GetSecret(ctx, secretName, namespace, key, b.Logger())
 	if err != nil {
 		resp := logical.ErrorResponse("Error reading the secret data " + err.Error())
 		return resp, nil

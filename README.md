@@ -42,6 +42,13 @@ Key         Value
 password    passw0rd
 username    admin
 
+To retrive a specific key value add key parameter, for example:
+# Read password key from sample secret:
+$ vault read kubernetes-secrets-reader/my-secret namespace=default key=password
+Key         Value
+---         -----
+password    cGFzc3cwcmQ=
+
 ```
 
 ## Gettings help
