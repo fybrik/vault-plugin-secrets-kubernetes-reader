@@ -2,6 +2,9 @@
 
 This is a secret engine plugin for [HashiCorp Vault](https://www.vaultproject.io/) which reads Kuberentes secrets.
 
+Note: Kubernetes secrets stored as unencrypted base64-encoded strings by default.
+This plugin returns the decoded values.
+
 Requirements:
 
     make
