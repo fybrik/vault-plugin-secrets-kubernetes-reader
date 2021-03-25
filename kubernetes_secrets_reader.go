@@ -2,7 +2,6 @@ package kubesecrets
 
 import (
 	"context"
-	b64 "encoding/base64"
 
 	log "github.com/hashicorp/go-hclog"
 	corev1 "k8s.io/api/core/v1"
@@ -37,7 +36,8 @@ func (s *KubernetesSecretsReader) GetSecret(ctx context.Context, secretName stri
 	for key, value := range secret.Data {
 		// Kubernetes secrets are stored as unencrypted base64-encoded strings by default.
 		// return the decoded values.
-		data[key], err = b64.URLEncoding.DecodeString(string(value))
+
+		data[key] = string(value)
 		if err != nil {
 			log.Error("Error in decoding secret: " + err.Error())
 			return nil, err
