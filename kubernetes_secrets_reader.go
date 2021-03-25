@@ -33,8 +33,9 @@ func (s *KubernetesSecretsReader) GetSecret(ctx context.Context, secretName stri
 	}
 
 	data := make(map[string]interface{})
+	// Get the data fields as strings
 	for key, value := range secret.Data {
-		data[key] = value
+		data[key] = string(value)
 	}
 
 	return data, nil
