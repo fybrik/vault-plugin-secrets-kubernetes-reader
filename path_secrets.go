@@ -54,7 +54,7 @@ func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Requ
 
 	fetchedData, err := b.KubeSecretReader.GetSecret(ctx, secretName, namespace, b.Logger())
 	if err != nil {
-		resp := logical.ErrorResponse("Error reading the secret data " + err.Error())
+		resp := logical.ErrorResponse("Error reading the secret data: " + err.Error())
 		return resp, nil
 	}
 
