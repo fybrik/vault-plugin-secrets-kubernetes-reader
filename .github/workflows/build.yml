@@ -10,7 +10,6 @@ on:
 
 env:
   DOCKER_HOSTNAME: ghcr.io
-  DOCKER_USERNAME: the-mesh-for-data
   GO_VERSION: 1.13
 
 jobs:
@@ -34,10 +33,10 @@ jobs:
       run: make build
     - name: Docker login
       if: ${{ github.event_name != 'pull_request' }}
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "${{ github.actor }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
     - name: Docker build
-      run: docker build . -t ghcr.io/the-mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest -f Dockerfile
+      run: docker build . -t ghcr.io/mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest -f Dockerfile
     - name: Docker push
       if: ${{ github.event_name != 'pull_request' }}
-      run: docker push ghcr.io/the-mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest
+      run: docker push ghcr.io/mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest
 
