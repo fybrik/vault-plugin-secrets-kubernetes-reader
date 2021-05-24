@@ -12,14 +12,14 @@ jobs:
     name: Create tag
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.3.4
         with:
           fetch-depth: 0
       - name: 'Get previous tag'
         id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        uses: "WyriHaximus/github-action-get-previous-tag@v1.1"
         env:
-          GITHUB_TOKEN: "${{ secrets.TAG_PSAT }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: 'Get possible next tags'
         id: semvers
         uses: "WyriHaximus/github-action-next-semvers@v1.1"
