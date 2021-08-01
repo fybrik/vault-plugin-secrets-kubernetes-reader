@@ -35,8 +35,8 @@ jobs:
       if: ${{ github.event_name != 'pull_request' }}
       run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login -u "${{ github.actor }}" --password-stdin "${{ env.DOCKER_HOSTNAME }}"
     - name: Docker build
-      run: docker build . -t ghcr.io/mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest -f Dockerfile
+      run: docker build . -t ghcr.io/fybrik/vault-plugin-secrets-kubernetes-reader:latest -f Dockerfile
     - name: Docker push
       if: ${{ github.event_name != 'pull_request' }}
-      run: docker push ghcr.io/mesh-for-data/vault-plugin-secrets-kubernetes-reader:latest
+      run: docker push ghcr.io/fybrik/vault-plugin-secrets-kubernetes-reader:latest
 
