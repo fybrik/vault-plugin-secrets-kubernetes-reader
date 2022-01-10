@@ -6,7 +6,6 @@ Requirements:
 
     make
     golang 1.13 and above
-    docker
     Vault CLI utility
 
 When Vault is deployed on Kuberentes cluster RBAC should be set to grant Vault with the proper permissions to read the secrets (Please see example/clusterrole.yaml and example/clusterrolebinding.yaml that can be used for such purpose).

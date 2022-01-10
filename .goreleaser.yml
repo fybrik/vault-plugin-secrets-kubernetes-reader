@@ -1,5 +1,9 @@
 # This is an example .goreleaser.yml file with some sane defaults.
 # Make sure to check the documentation at http://goreleaser.com
+
+env:
+  - CGO_ENABLED=0
+
 before:
   hooks:
     # You may remove this if you don't use go modules.
@@ -7,12 +11,12 @@ before:
     # you may remove this if you don't need go generate
     - go generate ./...
 builds:
-  - env:
-      - CGO_ENABLED=0
-    goos:
+  - goos:
       - linux
       - windows
       - darwin
+    binary: ./vault/plugins/vault-plugin-secrets-kubernetes-reader
+    main: ./cmd/vault-plugin-secrets-kubernetes-reader/main.go
 release:
   draft: true
 archives:
@@ -38,4 +42,16 @@ changelog:
       - '^test:'
       - '^style:'
       - '^refactor:'
+
+dockers:
+  - image_templates: 
+    - "ghcr.io/fybrik/{{.ProjectName}}:latest"
+    - "ghcr.io/fybrik/{{.ProjectName}}:{{ .Version }}"
+    dockerfile: Dockerfile.goreleaser
+    goos: linux
+    goarch: amd64
+    build_flag_templates:
+      - --platform=linux/amd64
+    skip_push: false
+
 
