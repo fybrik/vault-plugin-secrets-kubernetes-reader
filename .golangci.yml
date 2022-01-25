@@ -5,7 +5,7 @@ linters-settings:
     lines: 100
     statements: 50
   gci:
-    local-prefixes: fybrik.io/fybrik
+    local-prefixes: fybrik.io/vault-plugin-secrets-kubernetes-reader
   goconst:
     min-len: 2
     min-occurrences: 2
@@ -25,7 +25,7 @@ linters-settings:
   gocyclo:
     min-complexity: 15
   goimports:
-    local-prefixes: fybrik.io/fybrik
+    local-prefixes: fybrik.io/vault-plugin-secrets-kubernetes-reader
   gomnd:
     settings:
       mnd:
@@ -117,32 +117,6 @@ linters:
   # - testpackage
   # - wsl
 
-issues:
-  # Excluding configuration per-path, per-linter, per-text and per-source
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - gomnd
-    - path: pkg/connectors/policymanager/openapiclient
-      linters:
-        - gosec
-        - goimports
-    - path: pkg/connectors/datacatalog/openapiclient
-      linters:
-        - gosec
-        - goimports
-    - path: connectors/opa
-      linters:
-        - gosec
-        - goimports
-    - path: cmd
-      linters:
-        - gosec
-        - goimports
-    - path: test/services/pilot/mock-openapi-policymanager
-      linters:
-        - gosec
-        - goimports
 run:
   timeout: 5m
 
