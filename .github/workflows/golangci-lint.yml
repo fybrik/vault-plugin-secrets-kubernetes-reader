@@ -7,8 +7,8 @@ on:
       - master
   pull_request:
 jobs:
-  golangci-lint:
-    name: runner / golangci-lint
+  golangci:
+    name: golangci-lint
     runs-on: ubuntu-latest
     steps:
       - name: Check out code into the Go module directory
@@ -18,6 +18,5 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
-          version: 'v1.43.0'
-          args:  '--new-from-rev=HEAD~'
-          level: warning # GitHub Status Check won't become failure with this level.
+          version: latest
+          args: --new-from-rev=HEAD~
