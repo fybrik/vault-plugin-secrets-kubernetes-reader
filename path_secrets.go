@@ -2,6 +2,7 @@ package kubesecrets
 
 import (
 	"context"
+	"errors"
 
 	"github.com/hashicorp/vault/sdk/framework"
 	"github.com/hashicorp/vault/sdk/logical"
@@ -43,19 +44,19 @@ func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Requ
 	b.Logger().Info("In handleRead() secretName: " + secretName + ", namespace: " + namespace)
 
 	if secretName == "" {
-		resp := logical.ErrorResponse("Missing secret name")
-		return resp, nil
+		resp := logical.ErrorResponse("missing secret name")
+		return resp, errors.New("missing secret name")
 	}
 
 	if namespace == "" {
-		resp := logical.ErrorResponse("Missing secret namespace")
-		return resp, nil
+		resp := logical.ErrorResponse("missing secret namespace")
+		return resp, errors.New("missing sceret namespace")
 	}
 
 	fetchedData, err := b.KubeSecretReader.GetSecret(ctx, secretName, namespace, b.Logger())
 	if err != nil {
 		resp := logical.ErrorResponse("Error reading the secret data: " + err.Error())
-		return resp, nil
+		return resp, err
 	}
 
 	// Generate the response
