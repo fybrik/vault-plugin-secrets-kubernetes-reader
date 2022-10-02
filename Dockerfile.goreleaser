@@ -2,4 +2,4 @@ FROM alpine:latest
 
 WORKDIR /
 COPY ./vault-plugin-secrets-kubernetes-reader .
-
+USER 10001

@@ -12,14 +12,14 @@ DOCKER_NAME ?= vault-plugin-secrets-kubernetes-reader
 
 IMG := ${DOCKER_HOSTNAME}/${DOCKER_NAMESPACE}/${DOCKER_NAME}:${DOCKER_TAG}
 
-all: build
+all: source-build
 
-.PHONY: build
-build: 
+.PHONY: source-build
+source-build:
 	CGO_ENABLED=0 GOOS="$(OS)" GOARCH="$(GOARCH)" go build -o vault/plugins/vault-plugin-secrets-kubernetes-reader cmd/vault-plugin-secrets-kubernetes-reader/main.go
 
 .PHONY: docker-build
-docker-build: build
+docker-build: source-build
 	docker build -f Dockerfile . -t ${IMG}
 
 .PHONY: docker-push

@@ -7,10 +7,10 @@ INSTALL_TOOLS += $(TOOLBIN)/yq
 $(TOOLBIN)/yq:
 	cd $(TOOLS_DIR); ./install_yq.sh
 
-INSTALL_TOOLS += $(TOOLBIN)/kubebuilder
-.PHONY: $(TOOLBIN)/kubebuilder $(TOOLBIN)/etcd $(TOOLBIN)/kube-apiserver $(TOOLBIN)/kubectl
-$(TOOLBIN)/kubebuilder $(TOOLBIN)/etcd $(TOOLBIN)/kube-apiserver $(TOOLBIN)/kubectl:
-	cd $(TOOLS_DIR); ./install_kubebuilder.sh
+INSTALL_TOOLS += $(TOOLBIN)/kubectl
+.PHONY: $(TOOLBIN)/kubectl
+$(TOOLBIN)/kubectl: $(TOOLBIN)/yq
+	cd $(TOOLS_DIR); ./install_kubectl.sh
 
 .PHONY: install-tools
 install-tools: $(INSTALL_TOOLS)
