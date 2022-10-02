@@ -2,39 +2,58 @@ package kubesecrets
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
-	"github.com/hashicorp/vault/sdk/logical"
-
 	"github.com/hashicorp/go-hclog"
+	"github.com/hashicorp/vault/sdk/logical"
+	"github.com/onsi/gomega"
 )
 
-func getTestBackend(t *testing.T) logical.Backend {
-	b, _ := newBackend()
+func TestSecretNamespaceMissing(t *testing.T) {
+	t.Parallel()
+	g := gomega.NewGomegaWithT(t)
 
+	// create new backend
+	b, err := newBackend()
+	g.Expect(err).To(gomega.BeNil())
 	c := &logical.BackendConfig{
 		Logger: hclog.New(&hclog.LoggerOptions{}),
 	}
-	err := b.Setup(context.Background(), c)
-	if err != nil {
-		t.Fatalf("unable to create backend: %v", err)
-	}
-	return b
-}
-
-func TestSecretNamespaceMissing(t *testing.T) {
-	b := getTestBackend(t)
+	err = b.Setup(context.Background(), c)
+	g.Expect(err).To(gomega.BeNil(), "unable to create backend")
 
 	request := &logical.Request{
 		Operation: logical.ReadOperation,
-		Path:      fmt.Sprintf("%s/", secretsPrefix),
+		Path:      "dummy-secret",
 		Data:      make(map[string]interface{}),
 	}
 
 	errMsg := "Missing secret namespace"
-	resp, _ := b.HandleRequest(context.Background(), request)
-	if resp.Error().Error() != errMsg {
-		t.Errorf("Error must be '%s', get '%s'", errMsg, resp.Error())
+	_, err = b.HandleRequest(context.Background(), request)
+	g.Expect(err.Error()).Should(gomega.Equal(err.Error()), errMsg)
+}
+
+func TestSecretExists(t *testing.T) {
+	t.Parallel()
+	g := gomega.NewGomegaWithT(t)
+
+	// create new backend
+	b, err := newBackend()
+	g.Expect(err).To(gomega.BeNil())
+	c := &logical.BackendConfig{
+		Logger: hclog.New(&hclog.LoggerOptions{}),
 	}
+	err = b.Setup(context.Background(), c)
+	g.Expect(err).To(gomega.BeNil(), "unable to create backend")
+
+	data := make(map[string]interface{})
+	data["namespace"] = "default"
+	request := &logical.Request{
+		Operation: logical.ReadOperation,
+		Path:      "dummy-secret",
+		Data:      data,
+	}
+
+	_, err = b.HandleRequest(context.Background(), request)
+	g.Expect(err).To(gomega.BeNil())
 }
