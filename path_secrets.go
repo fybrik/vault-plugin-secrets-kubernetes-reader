@@ -16,7 +16,7 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 		Pattern: framework.MatchAllRegex(secretsPrefix),
 
 		Fields: map[string]*framework.FieldSchema{
-			"secret_name": {
+			secretsPrefix: {
 				Type:        framework.TypeString,
 				Description: "Specifies the name of the kubernetes secret.",
 				Query:       true,
@@ -39,7 +39,7 @@ func pathSecrets(b *secretsReaderBackend) *framework.Path {
 // handleRead handles a read request: it extracts the secret name and namespace
 // and returns the secret content if no error occured.
 func (b *secretsReaderBackend) handleRead(ctx context.Context, req *logical.Request, data *framework.FieldData) (*logical.Response, error) {
-	secretName := data.Get("secret_name").(string)
+	secretName := data.Get(secretsPrefix).(string)
 	namespace := data.Get("namespace").(string)
 	b.Logger().Info("In handleRead() secretName: " + secretName + ", namespace: " + namespace)
 
