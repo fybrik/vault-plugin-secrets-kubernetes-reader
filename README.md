@@ -43,7 +43,7 @@ username    admin
 
 ```
 
-## Gettings help
+## Getting help
 
 ```
  vault path-help kubernetes-secrets-reader
